@@ -10,7 +10,7 @@ from collections import defaultdict
 import itertools
 
 import logging
-
+#also include data preprocess
 def read_gene_from_file(filename,includesamples=None,negative_control=None):
     '''
     Reading gene models
@@ -23,6 +23,7 @@ def read_gene_from_file(filename,includesamples=None,negative_control=None):
     '''
     # first, read count table
     allgenedict={}
+    # 0,0 will be removed
     invalid_gRNA_dict=defaultdict(list)
     nline=0
     nsamples=0
@@ -110,6 +111,7 @@ def read_gene_from_file(filename,includesamples=None,negative_control=None):
             empty_gene.append(gene)
 
     allgenedict={key:values for key,values in list(allgenedict.items()) if key not in empty_gene}
+    
     if negative_control==None:
         return allgenedict,invalid_gRNA_dict
     else:
