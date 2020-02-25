@@ -72,6 +72,7 @@ def mageckcount_getmediannormfactor(ctable):
   """
   n=len(ctable[list(ctable.keys())[0]]) # samples
   m=len(ctable) # sgRNAs
+  #meanval= e^(log404/2+log494/2)
   meanval={k:math.exp( (sum( [ math.log(v2+1.0) for v2 in v])*1.0/n) ) for (k,v) in ctable.items() if sum(v)>0}  # geometric mean
   meanval={k:(lambda x: x if x>0 else 1)(v) for (k,v) in meanval.items()} # delete those with all 0 read counts
   #samplefactor=[0]*n
@@ -79,6 +80,7 @@ def mageckcount_getmediannormfactor(ctable):
   for ni in range(n):
     meanfactor=[ v[ni]/meanval[k] for (k,v) in ctable.items() if k in meanval]
     #print(str(sorted(meanfactor)))
+    #get median value
     xfactor=sorted(meanfactor)[len(meanfactor)//2] # corrected
     if xfactor>0.0:
       medianfactor[ni]=1.0/xfactor
